@@ -10,7 +10,22 @@ class AppServer {
     this.routes();
   }
   configure() {
-    this.app.use(cors());
+    const allowlist = [
+      'https://price-list-sepia.vercel.app',
+      'https://price-list-m9of.onrender.com',
+      'http://localhost:3000',
+      'http://localhost:4000'
+    ];
+    const corsOptions = (req, callback) => {
+      const origin = req.header('Origin');
+      if (!origin || allowlist.includes(origin)) {
+        callback(null, { origin: true, credentials: true });
+      } else {
+        callback(null, { origin: false });
+      }
+    };
+    this.app.use(cors(corsOptions));
+    this.app.options('*', cors(corsOptions));
     this.app.use(express.json());
   }
   routes() {
