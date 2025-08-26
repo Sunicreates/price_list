@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const config = require('./config');
 const productRoutes = require('./routes/productRoutes');
+const productController = require('./controllers/ProductController');
 
 class AppServer {
   constructor() {
@@ -31,7 +32,12 @@ class AppServer {
   }
   routes() {
     this.app.use('/products', productRoutes);
-    this.app.get('/health', (req, res) => res.json({ status: 'ok' }));
+    // Legacy /:id update path support (frontend currently sending PUT /{id})
+    this.app.put('/:id(\\d+)', (req, res, next) => {
+      if (!req.params.id) return next();
+      return productController.update(req, res);
+    });
+    
   }
   listen() {
     const port = config.port;
