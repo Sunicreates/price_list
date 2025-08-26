@@ -1,0 +1,5 @@
+/* Layout containers */
+.layout-root { display:flex; flex-direction:column; min-height:100vh; }
+.layout-body { flex:1; display:flex; }
+.content-area { flex:1; padding:24px 36px; position:relative; }
+.page-title { font-size:26px; font-weight:600; margin:0 0 20px; }

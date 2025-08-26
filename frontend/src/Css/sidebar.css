@@ -1,0 +1,13 @@
+/* Sidebar */
+.sidebar { width:220px; background:#fff; border-right:1px solid #e8edf2; display:flex; flex-direction:column; }
+.sidebar-header { display:flex; flex-direction:column; align-items:flex-start; padding:24px 20px 16px; gap:4px; border-bottom:1px solid #eef2f5; }
+.sidebar-header .avatar { width:64px; height:64px; border-radius:50%; object-fit:cover; }
+.sidebar-header .user-name { font-weight:600; font-size:20px; color:#222; }
+.sidebar-header .company { font-size:14px; color:#0285f7; }
+.sidebar-header .lang-flag { width:44px; height:30px; margin-left:0; }
+.menu-label { font-size:14px; font-weight:500; padding:12px 24px 4px; color:#4b5b67; letter-spacing:.5px; }
+.menu-list { list-style:none; margin:4px 0 0; padding:0; }
+.menu-item { padding:10px 18px; margin:4px 12px; border-radius:22px; font-size:15px; display:flex; align-items:center; gap:10px; cursor:pointer; color:#222; transition:.2s; position:relative; }
+.menu-item:hover { background:#f0f6ff; }
+.menu-item.active { background:#e4f2ff; color:#0484f5; font-weight:600; }
+.menu-item.disabled { color:#c8cdd2; cursor:not-allowed; }
