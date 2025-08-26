@@ -19,7 +19,7 @@ export default function PriceListPage() {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:4000/products')
+    fetch('https://price-list-m9of.onrender.com/products')
       .then(res => res.json())
       .then(setProducts)
       .catch(() => setProducts([]));
@@ -30,7 +30,7 @@ export default function PriceListPage() {
   };
 
   const handleBlur = (id, product) => {
-    fetch(`http://localhost:4000/products/${id}`, {
+    fetch(`https://price-list-m9of.onrender.com/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(product),
@@ -75,7 +75,7 @@ export default function PriceListPage() {
                     // optimistic temporary row
                     const tempId = Date.now();
                     setProducts(p => [...p, { id: tempId, ...blank }]);
-                    const res = await fetch('http://localhost:4000/products', {
+                    const res = await fetch('https://price-list-m9of.onrender.com/products', {
                       method:'POST',
                       headers:{ 'Content-Type':'application/json' },
                       body: JSON.stringify(blank)
