@@ -13,6 +13,7 @@ class AppServer {
     const allowlist = [
       'https://price-list-sepia.vercel.app',
       'https://price-list-m9of.onrender.com',
+      'https://price-list-g1z09xjk3-sunils-projects-bb89dc6c.vercel.app',
       'http://localhost:3000',
       'http://localhost:4000'
     ];
