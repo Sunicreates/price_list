@@ -123,7 +123,7 @@ export default function PriceListPage() {
                 onClick={() => setAdvanced(a => !a)}
                 aria-pressed={advanced}
               >               
-                  <span className="adv-label">Advanced mode</span>
+                  Advanced mode
 
                 <span className="switch" aria-hidden="true" />
               </button>
