@@ -22,6 +22,6 @@
 .btn-toggle.on .switch { background:#0285f7; }
 .btn-toggle.on .switch:after { transform:translateX(14px); }
 
-@media (max-width:430px) {
+@media (max-width:601px) {
 	.btn-toggle { min-width:145px; }
 }
