@@ -122,8 +122,9 @@ export default function PriceListPage() {
                 className={`btn-pill btn-toggle ${advanced ? 'on' : ''}`}
                 onClick={() => setAdvanced(a => !a)}
                 aria-pressed={advanced}
-              >
-                Advanced mode
+              >               
+                  <span className="adv-label">Advanced mode</span>
+
                 <span className="switch" aria-hidden="true" />
               </button>
             </div>
