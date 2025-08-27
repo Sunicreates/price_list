@@ -10,6 +10,8 @@ export default function PriceListPage() {
   const [advanced, setAdvanced] = useState(false);
   const [creating, setCreating] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Close sidebar on ESC
   useEffect(() => {
@@ -18,12 +20,20 @@ export default function PriceListPage() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  useEffect(() => {
+  const loadProducts = () => {
+    setLoading(true);
+    setError(null);
     fetch('https://price-list-m9of.onrender.com/products')
-      .then(res => res.json())
-      .then(setProducts)
-      .catch(() => setProducts([]));
-  }, []);
+      .then(res => {
+        if (!res.ok) throw new Error('Bad response');
+        return res.json();
+      })
+      .then(data => { setProducts(data); })
+      .catch(err => { console.error('Fetch products failed', err); setError('Failed to load products'); setProducts([]); })
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => { loadProducts(); }, []);
 
   const handleChange = (id, field, value) => {
     setProducts(list => list.map(p => (p.id === id ? { ...p, [field]: value } : p)));
@@ -49,6 +59,12 @@ export default function PriceListPage() {
       <div className="layout-body">
         <div className="sidebar-wrapper" id="app-sidebar"><Sidebar /></div>
         <main className="content-area">
+            {error && (
+            <div role="alert" style={{background:'#ffe5e5',border:'1px solid #f5b5b5',padding:'8px 12px',marginBottom:12,borderRadius:6,color:'#900',display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+              <span>{error}</span>
+              <button className="btn-pill" style={{background:'#900',color:'#fff'}} onClick={loadProducts}>Retry</button>
+            </div>
+          )}
           <div className="toolbar">
             <div className="searchers">
               <input
@@ -113,7 +129,19 @@ export default function PriceListPage() {
             </div>
           </div>
           <h2 className="page-title only-price-list">Price List</h2>
-          <ProductTable products={filtered} handleChange={handleChange} handleBlur={handleBlur} />
+                  {loading ? (
+            <div style={{padding:'40px 0', textAlign:'center', color:'#555'}}>Loading products...</div>
+          ) : (
+            <>
+              {!error && filtered.length === 0 && (
+                <div style={{padding:'24px 0', textAlign:'center', color:'#777'}}>No products match your search.</div>
+              )}
+              {!error && filtered.length > 0 && (
+                <ProductTable products={filtered} handleChange={handleChange} handleBlur={handleBlur} />
+              )}
+            </>
+          )}
+
         </main>
       </div>
     </div>
