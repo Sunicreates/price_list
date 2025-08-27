@@ -34,3 +34,7 @@
   header.header .avatar { display:none; }
   header.header .user-name-text { display:none; }
 }
+@media (max-width:600px) {
+  .btn-toggle .adv-label { display:none; }
+}
+
