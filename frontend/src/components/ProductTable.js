@@ -7,23 +7,41 @@ const headers = {
   price: 'Price',
   unit: 'Unit',
   in_stock: 'In Stock',
-  description: 'Description',
+  description: 'Description'
 };
 
-function calcFields(width) {
+
+function calcFields(width, orientation) {
   if (width < 520) return ['product_service', 'price'];
   if (width < 640) return ['article_no', 'product_service', 'price'];
-  if (width < 880) return ['article_no', 'product_service', 'price', 'unit'];
-  if (width < 1040) return ['article_no', 'product_service', 'price', 'unit', 'in_stock'];
+  if (width < 768) return ['article_no', 'product_service', 'price', 'unit'];
+  // Tablet portrait
+  if (width < 1024 && orientation === 'portrait') return ['article_no', 'product_service', 'price', 'unit', 'in_stock'];
+  // Tablet landscape up to desktop breakpoint
+  if (width < 1200) return ['article_no', 'product_service', 'in_price', 'price', 'unit', 'in_stock'];
+  // Desktop / large screens
   return ['article_no', 'product_service', 'in_price', 'price', 'unit', 'in_stock', 'description'];
 }
 
 export default function ProductTable({ products, handleChange, handleBlur }) {
-  const [fields, setFields] = useState(() => calcFields(window.innerWidth));
+  const getOrientation = () => (window.matchMedia && window.matchMedia('(orientation: portrait)').matches ? 'portrait' : 'landscape');
+  const [orientation, setOrientation] = useState(getOrientation());
+  const [fields, setFields] = useState(() => calcFields(window.innerWidth, orientation));
+
   useEffect(() => {
-    const onResize = () => setFields(calcFields(window.innerWidth));
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    const mq = window.matchMedia('(orientation: portrait)');
+    const handleOrientation = () => {
+      const o = getOrientation();
+      setOrientation(o);
+      setFields(calcFields(window.innerWidth, o));
+    };
+    const handleResize = () => setFields(calcFields(window.innerWidth, getOrientation()));
+    mq.addEventListener ? mq.addEventListener('change', handleOrientation) : mq.addListener(handleOrientation);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      mq.removeEventListener ? mq.removeEventListener('change', handleOrientation) : mq.removeListener(handleOrientation);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
   return (
     <div className="product-table-wrapper">
