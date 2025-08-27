@@ -9,7 +9,7 @@ const menuItems = [
   'Multiple Invoicing',
   'Unpaid Invoices',
   'Offer',
-  { label: 'Inventory Control', disabled: true },
+  { label: 'Inventory Control' },
   'Member Invoicing',
   'Import/Export',
   'Log out'
