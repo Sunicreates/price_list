@@ -12,6 +12,7 @@ class AppServer {
   }
   configure() {
     const allowlist = [
+      'https://price0.vercel.app',
       'https://price-list-sepia.vercel.app',
       'https://price-list-m9of.onrender.com',
       'https://price-list-g1z09xjk3-sunils-projects-bb89dc6c.vercel.app',
